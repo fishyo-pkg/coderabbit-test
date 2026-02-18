@@ -1,5 +1,11 @@
 # 일부러 비효율적으로 작성된 샘플 코드입니다.
 def calculate_total(items):
+    """
+    Compute the sum of the numeric values in items and print the total.
+    
+    Parameters:
+        items (iterable of numbers): Sequence of numeric values to be summed. The function prints the sum as "Total is: <sum>" and does not return a value.
+    """
     t = 0
     for i in range(len(items)):
         # 변수 이름이 불분명하고, 불필요한 연산이 포함됨
