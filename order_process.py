@@ -2,24 +2,33 @@
 import datetime
 
 def process_order(item_name, quantity, price_per_unit):
-    # 1. 보안 위험: API 키가 코드에 노출됨 (Hardcoded Secret)
-    API_KEY = "SG.xK92ls0283SL_example_key" 
+import os
+import datetime
+
+def process_order(item_name, quantity, price_per_unit):
+    # 필요시 환경 변수에서 API 키 로드
+    # api_key = os.environ.get("ORDER_API_KEY")
+    
+    if quantity <= 0:
+        raise ValueError("수량은 양수여야 합니다")
+    if price_per_unit < 0:
+        raise ValueError("단가는 음수일 수 없습니다")
     
     # 2. 논리 오류: 수량이 0이나 음수일 때 체크가 없음
     total_price = quantity * price_per_unit
     
-    # 3. 비효율적 연산: 굳이 필요 없는 반복문으로 시간 낭비
-    items_list = []
-    for i in range(quantity):
-        items_list.append(item_name)
+
     
     # 4. 가독성 및 유지보수: 세금(10%)이 하드코딩되어 있음
     final_amount = total_price * 1.1 
     
     # 5. 에러 처리 부재: 파일 저장 시 발생할 수 있는 오류를 무시함
-    f = open("order_log.txt", "a")
-    f.write(f"{datetime.datetime.now()}: {item_name} - {final_amount}\n")
-    f.close()
+    try:
+        with open("order_log.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()}: {item_name} - {final_amount}\n")
+    except IOError as e:
+        # 로깅 실패 시 처리 (예: 로그 출력 또는 무시)
+        print(f"로그 기록 실패: {e}")
 
     return final_amount
 
